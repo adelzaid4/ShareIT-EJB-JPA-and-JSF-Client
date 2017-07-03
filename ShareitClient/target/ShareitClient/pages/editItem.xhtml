@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/masterTemplate.xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="title">
+        Edit Item
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="fb-root"></div>
+
+        <h:form enctype="multipart/form-data" prependId="false"> 
+        
+            <p:growl id="growl" showDetail="true" life="3000"/>
+
+            <div id="all">
+
+                <div id="content">
+                    <div class="container">
+
+                        <div class="col-md-12">
+                            <ul class="breadcrumb">
+                                <li><h:commandLink action="items.xhtml" immediate="true">Home</h:commandLink>
+                                </li>
+                                <!--                                <li><h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
+                                                                </li>-->
+                                <li>
+                                    <h:commandLink action="#{itemBean.goToItem(item.id)}" immediate="true"> Item Details</h:commandLink>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="row" id="productMain">
+<!--                                <div class="col-md-12 text-center">
+                                    <c:if test="#{relatedItem.imageUrl != ''}">
+                                        <o:graphicImage  height="200px" value="#{itemBean.getImage(itemDetailBean.item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                    </c:if>
+                                </div>-->
+                                <h1 class="text-center">#{itemEditBean.item.name}</h1>
+
+                                <div id="details">
+
+                                    <h4>Item Details:</h4>
+
+                                    <p><label>Name:</label>
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.name}" immediate="true"  required="true" requiredMessage="name is required">
+                                               <f:ajax event="blur" execute="@this" render="nameErr"></f:ajax>
+                                        </h:inputText>
+                                         <h:message for="name" style="color:red" id="nameErr"/> 
+                                    </p>
+
+                                    <p><label>Description:</label>
+                                        <h:inputTextarea class="form-control" value="#{itemEditBean.item.description}" immediate="true" required="true" requiredMessage="description is required">
+                                             <f:ajax event="blur" execute="@this" render="descErr"></f:ajax>
+                                        </h:inputTextarea>
+                                         <h:message for="name" style="color:red" id="descErr"/> 
+                                    </p>
+                                    <p>
+                                        <label>Category:</label>
+                                        <h:selectOneMenu  styleClass="form-control" value="#{itemEditBean.item.category}" style="width:125px" id="categoryId" converter="omnifaces.SelectItemsConverter">
+
+                                            <f:selectItems value="#{itemBean.categories}" var="c" itemLabel="#{c.name}" itemValue="#{c}"/>
+
+                                        </h:selectOneMenu>
+                                    </p>
+
+                                    <p>
+                                        <label>Tags:</label>
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.tags}" required="true" requiredMessage="tags is required">
+                                              <f:ajax event="blur" execute="@this" render="tagsErr"></f:ajax>
+                                        </h:inputText>
+                                         <h:message for="name" style="color:red" id="tagsErr"/> 
+                                    </p>
+
+                                    <p>
+                                        <label>Number Of Points:</label>
+                                        <h:inputText class="form-control" value="#{itemEditBean.item.points}" pt:type="number" pt:min="0" required="true" requiredMessage="points is required">
+                                            <f:ajax event="blur" execute="@this" render="ptsErr"></f:ajax>
+                                        </h:inputText>
+                                        <h:message id="ptsErr" for="points" style="color:red"/>
+                                    </p>
+
+                                    <div class="form-group">
+                                        <label for="image">User Image</label>
+                                        <h:inputFile value="#{itemEditBean.file}">
+                                            <f:ajax listener="#{itemEditBean.save()}" />
+                                        </h:inputFile>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <h:commandLink class="btn btn-primary" action="#{itemEditBean.updateItem()}"><i class="fa fa-user-md"> Update</i>
+                                            <f:ajax execute="@all" render="name tags points description growl"/>
+                                        </h:commandLink>
+                                        <h:messages />
+                                        
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/masterTemplate.xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui">
+
+
+    <ui:define name="title">
+        Item Details
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v2.9";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <o:form includeRequestParams="true" id="detailForm">
+            <p:growl id="message" showDetail="true" />
+            <p:growl id="growl" showDetail="true" life="3000" />
+            <div id="all">
+
+                <div id="content">
+                    <div class="container">
+
+                        <div class="col-md-12">
+                            <ul class="breadcrumb">
+                                <li><h:commandLink action="items.xhtml" immediate="true">Home</h:commandLink>
+                                </li>
+                                <!--                                <li>
+                                                                    <h:commandLink action="items.xhtml" immediate="true">Items</h:commandLink>
+                                                                </li>-->
+                                <li>Item : #{itemDetailBean.item.name} details</li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="row" id="productMain">
+                                <div class="col-sm-3">
+                                    <div id="mainImage">
+                                        <c:if test="#{relatedItem.imageUrl != ''}">
+                                            <o:graphicImage  height="200px" value="#{itemBean.getImage(itemDetailBean.item.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                        </c:if>
+                                    </div>
+
+                                    <c:if test="#{itemDetailBean.publishDays le 7}">
+                                        <div class="ribbon new">
+                                            <div class="theribbon">NEW</div>
+                                            <div class="ribbon-background"></div>
+                                        </div>
+                                    </c:if>
+
+                                    <!-- /.ribbon -->
+
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="box">
+                                        <h1 class="text-center">#{itemDetailBean.item.name}</h1>
+                                        <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to item details </a>
+                                        </p>
+                                        <p class="price">#{itemDetailBean.item.points} points</p>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--<div class="col-sm-6">-->
+                            <c:if test="#{(user.userDto ne null and user.userDto.id.intValue() ne itemDetailBean.item.userFrom.id.intValue())}">
+                                <div class="box">
+                                    <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq false}" >
+
+                                        <c:if test="#{itemDetailBean.isRequested ne true}" >
+                                            <label for="timeFrom" >Date From :</label>
+                                            <h:inputText  class="form-control" id="timeFrom" value="#{itemDetailBean.timeFrom}" pt:type="date" pt:min="#{itemDetailBean.todayString}" required="true"  
+                                                          requiredMessage="Date From field is required" >
+                                            </h:inputText>
+                                            <!--<p:calendar id="timeFrom"  />-->
+
+                                            <h:message for="timeFrom" style="color:red;" />
+                                            <br/>
+
+                                            <label for="timeTo" >Date To :</label>
+                                            <h:inputText  class="form-control" id="timeTo" value="#{itemDetailBean.timeTo}" pt:type="date" pt:min="#{itemDetailBean.todayString}" 
+                                                          required="true" requiredMessage="Time To field is required" />
+                                            
+                                            <h:message for="timeTo" style="color:red;"/>
+                                            <br/>
+                                            <label for="Meeting Point" >Meeting Point :</label>
+                                            <h:inputText class="form-control" id="meetingPoint" value="#{itemDetailBean.meetingPoint}"  required="true" 
+                                                         requiredMessage="Meeting Point field is required" 
+                                                         validatorMessage="Meeting Point field must be more than 6 length" >
+                                                <f:validateLength minimum="6"/>
+                                            </h:inputText>
+                                            <h:message for="meetingPoint" style="color:red;"/>
+                                            <br/><br/>
+                                        </c:if>
+                                        <br/><br/>
+                                        <p class="text-center buttons">
+                                            <c:if test="#{itemDetailBean.isRequested ne true}" >
+                                                <h:commandLink value="Request Item" action="#{itemDetailBean.requestItem()}" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>
+                                                </h:commandLink>
+                                            </c:if>
+                                            <c:if test="#{itemDetailBean.isRequested eq true}" >
+                                                <h:commandLink value="Cancel Request" action="#{itemDetailBean.cancelRequest()}" class="btn btn-danger"><i class="fa fa-shopping-cart"></i>
+                                                </h:commandLink>
+                                            </c:if>
+
+                                        </p>
+                                    </c:if>
+                                    <c:if test="#{user.userDto ne null and itemDetailBean.noRequest eq true}" >
+                                        <h:outputText value="#{itemDetailBean.message}" 
+                                                      style="display: block;text-align: center;font-weight: 300;font-size: 18px;" />
+                                    </c:if>
+                                </div>
+                            </c:if>
+                            <!--</div>-->
+
+                            <div class="box" id="details">
+
+                                <h4>Item details</h4>
+                                <p>#{itemDetailBean.item.description}</p>
+                                <h4>Category</h4>
+                                <p>#{itemDetailBean.item.category.name}</p>
+                                <h4>Tags</h4>
+                                <ui:repeat var="currTag" value="#{itemDetailBean.hashTags}">
+                                    <h:commandLink value="##{currTag}" action="items.xhtml" actionListener="#{itemBean.doSearchTag(currTag)}" immediate="true"/>  &nbsp;
+                                </ui:repeat>
+
+
+
+                                <blockquote>
+                                    <p><em>Published at : 
+                                            <h:outputText value = "#{itemDetailBean.item.publishDate}" >
+                                                <f:convertDateTime pattern = "dd-MM-yyyy HH:mm:ss" />
+                                            </h:outputText></em>
+                                    </p>
+                                </blockquote>
+                                <h:link outcome="#{itemDetailBean.goToPublisher(itemDetailBean.item.userFrom.id)}" styleClass="btn btn-default btn btn-primary">View Publisher</h:link><br/><br/>       
+                                <div class="input-group-btn btn-group">
+
+                                    <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
+                                        <h:link outcome="#{itemDetailBean.goToEditItem(itemDetailBean.item.id)}" value="Edit Item" styleClass="btn btn-default" class="btn btn-primary">
+                                            <span class="fa fa-plus-circle"></span>
+                                        </h:link>
+                                    </c:if>
+
+                                    <c:if test="#{itemDetailBean.item.userFrom.id.intValue() eq user.userDto.id.intValue()}">
+                                        <div class="social col-lg-3">
+                                            <p:commandLink   class="btn  btn-danger" value="Delete Item" style="width: fit-content; border-radius: 0px;"
+                                                             actionListener="#{itemDetailBean.deleteItem()}" update="message">
+
+                                                <p:confirm header="Confirmation" message="Are you sure you want to delete item?" icon="ui-icon-alert" />
+
+                                            </p:commandLink>
+
+                                           
+                                                <p:confirmDialog global="true" closeOnEscape="true" >
+                                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"  />
+                                                </p:confirmDialog>
+                                       
+
+                                        </div>
+                                    </c:if>
+                                </div>
+
+                                <hr></hr>
+                                <div class="social">
+                                    <h4>Show it to your friends</h4>
+                                    <p>
+                                        <div class="fb-share-button" data-href="#{request.requestURL}?id=#{itemDetailBean.item.id}" data-layout="button_count" data-size="large" data-mobile-iframe="true">
+                                            <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8081%2Fshareit%2Ffaces%2Fpages%2FitemDetails.xhtml%3Fid%3D53&amp;src=sdkpreparse">
+                                                Share
+                                            </a>
+                                        </div>
+
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <c:if test="#{itemDetailBean.relatedItems.size() gt 0 }">
+                                <div class="row same-height-row">
+                                    <div class="col-md-12 box">
+                                        <div class=" same-height">
+                                            <h3>You may also like these products</h3>
+
+                                            <ui:repeat var="relatedItem" value="#{itemDetailBean.relatedItems}">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <div class="product same-height ">
+                                                        <div class="flip-container">
+                                                            <div class="flipper">
+                                                                <div class="front">
+                                                                    <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" >
+                                                                        <c:if test="#{relatedItem.imageUrl != ''}">
+                                                                            <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                                        </c:if>
+                                                                    </h:link>
+                                                                </div>
+                                                                <div class="back">
+                                                                    <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" >
+                                                                        <c:if test="#{relatedItem.imageUrl != ''}">
+                                                                            <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                                        </c:if>
+                                                                    </h:link>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <h:link outcome="#{itemBean.goToItem(relatedItem.id)}" class="invisible" >
+                                                            <c:if test="#{relatedItem.imageUrl != ''}">
+                                                                <o:graphicImage value="#{itemBean.getImage(relatedItem.imageUrl)}" styleClass="img-responsive" dataURI="true" /> 
+                                                            </c:if>
+                                                        </h:link>
+                                                        <div class="text">
+                                                            <h3>#{relatedItem.name}</h3>
+                                                            <p class="price">#{relatedItem.points} points</p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </ui:repeat>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+
+                        </div>
+                        <!-- /.col-md-9 -->
+                    </div>
+                    <!-- /.container -->
+                </div>
+                <!-- /#content -->
+
+            </div>
+        </o:form>
+    </ui:define>
+</ui:composition>

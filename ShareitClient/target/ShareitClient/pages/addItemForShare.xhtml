@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        Add Item
+    </ui:define>
+
+    <ui:define name="content">
+        <div id="content">
+            <div class="container">
+
+                <h:form  enctype="multipart/form-data"  id="addItemForm">
+
+                    <p:growl id="growl" showDetail="true" life="3000"/>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+
+                        <h:inputText value="#{itemManagedBean.name}" id="name" class="form-control" required="true" requiredMessage="name is required">
+                            <f:ajax event="blur" execute="@this" render="nameErr"></f:ajax>
+                        </h:inputText>
+                        <h:message for="name" style="color:red" id="nameErr"/> 
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="description">description</label>
+                        <h:inputTextarea value="#{itemManagedBean.description}" id="description" required="true" class="form-control" requiredMessage="description is required">
+                             <f:ajax event="blur" execute="@this" render="descErr"></f:ajax>
+                        </h:inputTextarea>
+                        <h:message for="description" style="color:red" id="descErr"/> 
+                    </div>
+
+                    <div class="form-group">
+                        <label for="points">points</label>
+                        <h:inputText value="#{itemManagedBean.points}" pt:type="number"  id="points" required="true" class="form-control"  requiredMessage="number of points is required">
+                            <f:ajax event="blur" execute="@this" render="ptsErr"></f:ajax>
+                        </h:inputText>
+                        <h:message id="ptsErr" for="points" style="color:red"/> 
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <h:selectOneMenu id="cat" value="#{itemManagedBean.category}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="please select a category">
+                            <f:selectItems value="#{itemManagedBean.categories}" var="cat" itemValue="#{cat}" itemLabel="#{cat.name}"  />
+                            <f:ajax event="blur" execute="@this" render="catErr"></f:ajax>
+                        </h:selectOneMenu>
+                        <h:message id="catErr" for="cat" style="color:red"/> 
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags:</label>
+                        <h:inputTextarea  value="#{itemManagedBean.tags}" class="form-control" rows="3" cols="2" id="tags"  required="true" requiredMessage="tags are required" pt:placeholder="Dont't forget to add , after each tag">
+                            <f:ajax event="blur" execute="@this" render="tagErr"></f:ajax>
+                        </h:inputTextarea>
+                        <h:message id="tagErr" for="tags" style="color:red"/> 
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Item Image</label>
+                        <o:inputFile id="image" value="#{itemManagedBean.file}" accept="image/*,image/PNG,image/JPG" required="true" requiredMessage="Item Image are required" acceptMessage="File extension is unacceptable!">
+                            <f:ajax listener="#{itemManagedBean.save()}" render="file_m"  />
+                        </o:inputFile>
+                        <h:message id="file_m" for="image" style="color:red"/>
+                    </div>
+                    <div class="text-center">
+                        <h:commandButton class="btn btn-primary" id="addbtn" value="Add Item" actionListener="#{itemManagedBean.addItem()}">
+                            <f:ajax execute="@all" render="name tags points description growl"/>
+                        </h:commandButton>
+                    </div>
+                    <br/><br/>
+
+                </h:form>
+            </div>
+        </div>        
+
+    </ui:define>
+</ui:composition>
+

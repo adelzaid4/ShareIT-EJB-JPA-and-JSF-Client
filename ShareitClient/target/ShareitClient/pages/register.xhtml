@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui">
+      <ui:define name="title">
+         register
+    </ui:define>
+    <ui:define name="content">
+        <div id="content">
+            <div class="container">
+
+                <h:form>
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li><h:commandLink action="items.xhtml">Home</h:commandLink>
+                            </li>
+                            <li>New account / Sign in</li>
+                        </ul>
+                    </div>
+                </h:form>
+
+                <div class="col-md-6">
+                    <div class="box">
+                        <h1>New account</h1>
+                        <h:form>
+                            <p class="lead">Not our registered customer yet?</p>
+                            <p>With registration with us and share what you don't need! The whole process will not take you more than a minute!</p>
+                            <p class="text-muted">If you have any questions, please feel free to  <h:commandLink action="Contact_us.xhtml">contact us</h:commandLink>, our customer service center is working for you 24/7.</p>
+                        </h:form>
+                        <hr/>
+
+                        <h:form enctype="multipart/form-data" id="form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <h:inputText class="form-control" id="name" value="#{registerBean.userName}" required="true" requiredMessage="name field is required"/>
+                                <h:message for="form:name" style="color:red"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <h:inputText pt:type="email" class="form-control" id="email" value="#{registerBean.email}" required="true" requiredMessage="email field is required"/>
+                                <h:message for="email" style="color:red"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <h:inputSecret class="form-control" id="password" pt:minlength="6" value="#{registerBean.password}" required="true" requiredMessage="password field is required"/>
+                                <h:message for="password" style="color:red"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <h:selectOneMenu class="form-control" value="#{registerBean.gender}" required="true">   
+                                    <f:selectItem itemValue = "male" itemLabel = "male" /> 
+                                    <f:selectItem itemValue = "female" itemLabel = "female" /> 
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="form-group">
+                                <label for="Countries" >Country</label>
+                                <h:selectOneMenu id="Countries" value="#{registerBean.country}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="country field is required">
+                                    <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country.country}"  /> 
+                                    <f:ajax listener="#{registerBean.onCountryChange(registerBean.country.id)}" render="States Cities"/>
+                                </h:selectOneMenu>
+                                <h:message for="Countries" style="color:red"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="States">State</label>
+                                <h:selectOneMenu id="States" value="#{registerBean.state}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="state field is required">
+                                    <f:selectItem itemLabel="Select-State" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.states}" var="state" itemValue="#{state}" itemLabel="#{state.state}"  />
+                                    <f:ajax listener="#{registerBean.onStateChange(registerBean.state.id)}" render="Cities"/>
+                                </h:selectOneMenu>
+                                <h:message for="States" style="color:red"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="Cities">City</label>
+                                <h:selectOneMenu id="Cities" value="#{registerBean.city}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="city field is required">
+                                    <f:selectItem itemLabel="Select-City" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
+                                </h:selectOneMenu>
+                                <h:message for="Cities" style="color:red"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">User Image</label>
+                                <o:inputFile id="image" value="#{registerBean.file}" accept="image/*,image/PNG,image/JPG" acceptMessage="File extension is unacceptable!">
+                                    <f:ajax listener="#{registerBean.save()}" render="file_m" />
+                                </o:inputFile>
+                                <h:message id="file_m" for="image" style="color:red"/>
+                            </div>
+                            <div class="text-center">
+                                <h:commandLink class="btn btn-primary" actionListener="#{registerBean.register}"><i class="fa fa-user-md"></i> Register
+                                    <f:ajax execute="@all" render="@all"/>
+                                </h:commandLink>
+                                <br/>
+                                <h:outputText id="success"/>
+                                <br/>
+                                <h:message for="success" style="color:green"/>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="box">
+                        <h1>Login</h1>
+                        <p class="lead">Already our customer?</p>
+                        <hr/>
+                        <h:form id="loginForm">
+                             <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <h:inputText pt:type="email" class="form-control" value="#{user.email}" id="loginEmail" required="true" requiredMessage="this email is required"/>
+                                <h:message for="loginEmail" style="color:red"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <h:inputSecret class="form-control" value="#{user.password}" id="loginPassword" required="true" requiredMessage="this password is required"/>
+                                <h:message for="loginPassword" style="color:red"/>
+                            </div>
+                            <div class="text-center">
+                                <h:commandLink action="#{user.login()}"  class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in                                   
+                                </h:commandLink>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+    </ui:define>
+</ui:composition>

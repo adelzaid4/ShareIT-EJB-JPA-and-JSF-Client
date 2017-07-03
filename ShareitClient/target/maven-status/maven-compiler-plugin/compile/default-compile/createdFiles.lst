@@ -1,0 +1,17 @@
+eg\iti\shareit\view\managedbeans\RegistrationBean.class
+eg\iti\shareit\view\managedbeans\ItemManagedBean.class
+eg\iti\shareit\view\converters\CategoryConverter.class
+eg\iti\shareit\view\managedbeans\NotificationBean.class
+eg\iti\shareit\view\managedbeans\SearchBean.class
+eg\iti\shareit\view\managedbeans\SessionUtil.class
+eg\iti\shareit\view\managedbeans\CategoryBean.class
+eg\iti\shareit\view\managedbeans\ListItemsBean.class
+eg\iti\shareit\view\managedbeans\UserBean.class
+eg\iti\shareit\view\managedbeans\ItemEditBean.class
+eg\iti\shareit\view\managedbeans\AdvancedSearchBean.class
+eg\iti\shareit\view\managedbeans\UserManagedBean.class
+eg\iti\shareit\view\filters\AuthorizationFilter.class
+eg\iti\shareit\view\managedbeans\ItemBean.class
+eg\iti\shareit\view\managedbeans\ItemDetailBean.class
+eg\iti\shareit\view\managedbeans\RequestsBean.class
+eg\iti\shareit\view\managedbeans\ItemStatusBean.class

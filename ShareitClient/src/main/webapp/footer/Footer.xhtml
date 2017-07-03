@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <!-- *** FOOTER ***
+_________________________________________________________ -->
+    <div id="footer" data-animate="fadeInUp">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <h4>Pages</h4>
+
+                    <ul>
+                        <h:form>
+                            <li><h:commandLink action="About_us.xhtml?faces-redirect=true">About us</h:commandLink>
+                            </li>
+                            <li><h:commandLink action="faq.xhtml?faces-redirect=true">FAQ</h:commandLink>
+                            </li>
+                            <li><h:commandLink action="Contact_us.xhtml?faces-redirect=true">Contact us</h:commandLink>
+                            </li>
+                        </h:form>
+                    </ul>
+
+
+                </div>
+                <!-- /.col-md-3 -->
+
+                <div class="col-md-3 col-sm-6">
+
+                    <h4>Top categories</h4>
+                    <ul>
+                        <h:form>
+                            <c:forEach items="#{category.firstList}" var="c" class="col-md-3 col-sm-6" begin="0" end="3">
+                                <li><h:commandLink value="#{c.name}"  action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
+                                    <br/></li>
+                            </c:forEach>
+                        </h:form>
+                    </ul>
+                    <hr class="hidden-md hidden-lg"/>
+                </div>
+
+                <!-- /.col-md-3 -->
+
+                <div class="col-md-3 col-sm-6">
+
+                    <h4>Where to find us</h4>
+
+                    <p><strong>Smart Village</strong>
+                        <br/>28 Km by Cairo / Alexandria Desert Road
+                        <br/>6 October,
+                        <br/>Giza
+                        <br/>Building B148
+                        <br/>
+                    </p>
+                    <h:form>
+                        <h:commandLink action="Contact_us.xhtml?faces-redirect=true">Go to contact page</h:commandLink>
+                    </h:form>
+                    <hr class="hidden-md hidden-lg"/>
+
+                </div>
+                <!-- /.col-md-3 -->
+
+                <div class="col-md-3 col-sm-6">
+                    <!--<hr/>-->
+
+                    <h4>Stay in touch</h4>
+
+                    <p class="social">
+                        <a href="#" class="facebook external" data-animate-hover="shake"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="twitter external" data-animate-hover="shake"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="instagram external" data-animate-hover="shake"><i class="fa fa-instagram"></i></a>
+                        <a href="#" class="gplus external" data-animate-hover="shake"><i class="fa fa-google-plus"></i></a>
+                        <a href="#" class="email external" data-animate-hover="shake"><i class="fa fa-envelope"></i></a>
+                    </p>
+                </div>
+                <!-- /.col-md-3 -->
+
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /#footer -->
+
+    <!-- *** FOOTER END *** -->
+    <!-- end of footer ............................................ -->
+</ui:composition>

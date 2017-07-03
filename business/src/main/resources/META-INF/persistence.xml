@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="shareitPersistenceUnit" transaction-type="JTA">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:/jdbc/shareit/ds</jta-data-source>
+        <class>eg.iti.shareit.model.entity.UserEntity</class>
+        <class>eg.iti.shareit.model.entity.StateEntity</class>
+        <class>eg.iti.shareit.model.entity.ItemEntity</class>
+        <class>eg.iti.shareit.model.entity.AddressEntity</class>
+        <class>eg.iti.shareit.model.entity.CategoryEntity</class>
+        <class>eg.iti.shareit.model.entity.CityEntity</class>
+        <class>eg.iti.shareit.model.entity.CountryEntity</class>
+        <class>eg.iti.shareit.model.entity.GenderEntity</class>
+        <properties>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+        </properties>
+    </persistence-unit>
+</persistence>

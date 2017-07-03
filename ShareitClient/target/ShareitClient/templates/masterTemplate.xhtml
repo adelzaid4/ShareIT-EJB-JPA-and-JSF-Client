@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title><ui:insert name="title">this is the default title</ui:insert> </title>
+        <ui:include src="/head/head.xhtml"></ui:include>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSpZUVgXDO1cbLi5ArSuc7w8D9cDSKVmM"
+        type="text/javascript"></script>
+    </h:head>
+
+    <h:body>
+        <h:outputStylesheet library="css" name="style.css"/>
+        <ui:include src="/header/HeaderLoggedIn.xhtml"></ui:include>
+        <ui:include src="/navbar/navbar.xhtml"></ui:include>
+        <div id="all">
+            <ui:insert name="content">
+                <h1>This is the body</h1>
+            </ui:insert>
+        </div>
+        <ui:include src="/footer/Footer.xhtml"></ui:include>
+        <h:outputScript library="js" name="jquery-1.11.0.min.js" />
+        <h:outputScript library="js" name="bootstrap.min.js" />
+        <h:outputScript library="js" name="jquery.cookie.js" />
+        <h:outputScript library="js" name="waypoints.min.js" />
+        <h:outputScript library="js" name="modernizr.js" />
+        <h:outputScript library="js" name="bootstrap-hover-dropdown.js" />
+        <h:outputScript library="js" name="owl.carousel.min.js" />
+        <h:outputScript library="js" name="front.js" />
+        <c:if test="#{user.userDto ne null}">
+            <h:outputScript library="js" name="custome.js" />
+        </c:if>
+    </h:body>
+
+</html>
+

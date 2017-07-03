@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>eg.iti.shareit</groupId>
+        <artifactId>shareit</artifactId>
+        <version>0.1</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ear</artifactId>
+
+    <packaging>ear</packaging>
+
+    <name>ear</name>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+
+                    <version>1.4</version>
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+
+                    <modules>
+
+                        <ejbModule>
+                            <groupId>eg.iti.shareit</groupId>
+                            <artifactId>business</artifactId>
+                            <bundleFileName>business.jar</bundleFileName>
+
+                        </ejbModule>
+
+                        <webModule>
+                            <groupId>eg.iti.shareit</groupId>
+                            <artifactId>ShareitClient</artifactId>
+                            <bundleFileName>ShareitClient.war</bundleFileName>
+                            <contextRoot>/shareit</contextRoot>
+                        </webModule>
+                    </modules>
+
+                    <displayName>shareit Ear file</displayName>
+                    <generateApplicationXml>true</generateApplicationXml>
+
+                    <finalName>shareit</finalName>
+
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <finalName>shareit</finalName>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>eg.iti.shareit</groupId>
+            <artifactId>business</artifactId>
+            <version>0.1</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>eg.iti.shareit</groupId>
+            <artifactId>ShareitClient</artifactId>
+            <version>0.1</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+
+</project>

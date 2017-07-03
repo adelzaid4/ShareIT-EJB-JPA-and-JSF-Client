@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui">
+
+
+    <!-- *** NAVBAR ***
+ _________________________________________________________ -->
+
+    <div class="navbar navbar-default yamm" role="navigation" id="navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <h:form>
+                    <h:commandLink styleClass="navbar-brand home" action="items.xhtml?faces-redirect=true" pt:data-animate-hover="bounce">
+                        <h:graphicImage library="images" name="logo.png" pt:class="hidden-xs" pt:alt="logo"/>
+                        <!--<img src="/resources/images/logo.png" alt="Obaju logo" class="hidden-xs"/>-->
+                        <h:graphicImage library="images" name="logo-small.png" pt:class="visible-xs" pt:alt="logo"/>
+                        <!--<img src="/resources/images/logo-small.png" alt="Obaju logo" class="visible-xs"/>-->
+                        <span class="sr-only">Obaju - go to homepage</span>
+                    </h:commandLink>
+                    <div class="navbar-buttons">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+                            <span class="sr-only">Toggle navigation</span>
+                            <i class="fa fa-align-justify"></i>
+                        </button>
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                            <span class="sr-only">Toggle search</span>
+                            <i class="fa fa-search"></i>
+                        </button>
+
+                        <h:commandLink action="advancedSearch.xhtml?faces-redirect=true"  class="navbar-toggle" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search">
+                            <span class="sr-only">Toggle Advanced search</span>
+                            <i class="fa fa-search-plus"></i>
+                        </h:commandLink>
+                        <c:if test="#{user.userDto ne null}" >
+                            <h:commandLink action="notifications.xhtml?faces-redirect=true"  class="navbar-toggle" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Notifications">
+                                <span class="hidden-xs">Notification</span>
+                                <i class="fa fa-bell"></i>
+                            </h:commandLink>
+                        </c:if>
+
+                    </div>
+                </h:form>
+            </div>
+
+            <c:if test="#{user.userDto != null}">
+                <div class="collapse navbar-collapse" style="float: right;">
+
+                    <ul class="nav navbar-nav navbar-right" >
+                        <li class="dropdown">
+                            <a href="#"  data-toggle="dropdown">
+                                <span  class="fa fa-user"></span>
+                                <strong>#{user.userDto.username}</strong>
+                                <span class="fa fa-chevron-down"></span>
+                            </a>
+                            <ul class="dropdown-menu" >
+                                <o:form id="formProfile" includeRequestParams="true" prependId="false">
+                                    <c:if test="#{user.userDto!=null}">
+                                        <h:commandButton style="visibility: hidden;" action="#{user.getNotificationNumberFromDB()}" id="notificationNumber">
+                                            <f:ajax render="notificationNumberCount" />
+                                        </h:commandButton>
+                                        <h:commandButton style="visibility: hidden;" action="#{user.getItemStatusNum()}" id="itemStatusNumber">
+                                            <f:ajax render="itemNumber"/>
+                                        </h:commandButton>
+                                    </c:if>
+                                    <li>
+                                        <div class="navbar-login" style=" width: 305px;
+                                             padding: 10px;
+                                             padding-bottom: 0px; color: black;">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <p class="text-center">
+
+                                                        <o:graphicImage value="#{user.getImage(user.userDto.imageUrl)}" class="img-rounded" width="100" height="100"  dataURI="true" /> 
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-lg-8">
+                                                    <p class="text-left" style="font-weight: bold;"><strong>#{user.userDto.username}</strong></p>
+                                                    <p class="text-left small">#{user.userDto.email}</p>
+                                                    <p class="text-left">
+
+                                                        <h:commandLink action="#{user.goToProfile(user.userDto.id)}" class="btn btn-primary btn-block btn-sm">Profile</h:commandLink>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="divider navbar-login-session-bg" style=" padding: 10px;
+                                        padding-bottom: 0px;
+                                        padding-top: 0px;"></li>
+
+                                    <h:link class="list-group-item list-group-item"  outcome="notifications.xhtml" style="color: black;" >Notifications  <h:outputLabel class="badge pull-right right"  id="notificationNumberCount">#{user.notificationNumber}</h:outputLabel></h:link>
+
+                                    <h:link class="list-group-item list-group-item"  outcome="itemStatus.xhtml" style="color: black;" >Items Status <h:outputLabel class="badge pull-right right"  id="itemNumber">#{user.itemNum}</h:outputLabel></h:link>
+
+
+                                    <h:link class="list-group-item list-group-item"  outcome="request.xhtml" style="color: black;" >Requests <span class="fa fa-shopping-cart pull-right"></span></h:link>
+
+
+                                    <h:commandLink class="list-group-item list-group-item-info"  action="#{user.logout()}" style="color: black;" >Sign Out <span class="fa fa-sign-out pull-right"></span></h:commandLink>
+                                </o:form>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </c:if>
+            <!--/.navbar-header -->
+
+            <div class="navbar-collapse collapse" id="navigation">
+
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="yamm-fw">
+                        <h:link class="dropdown-toggle" pt:data-hover="dropdown" outcome="items.xhtml">Home</h:link>
+                    </li>
+                    <li class="dropdown yamm-fw">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Categories<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="yamm-content">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <ul>
+                                                <h:form>
+                                                    <ui:repeat value="#{category.firstList}" var="c">
+                                                        <li>
+                                                            <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
+                                                        </li>
+                                                    </ui:repeat>
+                                                </h:form>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <ul>
+                                                <h:form>
+                                                    <ui:repeat value="#{category.secondList}" var="c">
+                                                        <li>
+                                                            <h:commandLink value="#{c.name}" action="items.xhtml" actionListener="#{itemBean.doSearchNavBar(c.id)}" immediate="true"/> 
+                                                        </li>
+                                                    </ui:repeat>
+                                                </h:form>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <c:if test="#{user.userDto != null}">
+                        <li class=" yamm-fw">
+                            <h:link class="dropdown-toggle" pt:data-hover="dropdown" outcome="addItemForShare.xhtml">Share Item</h:link>
+                        </li>
+                    </c:if>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+
+            <div class="navbar-buttons">
+                <!--/.nav-collapse -->
+
+                <div class="navbar-collapse collapse right" id="search-not-mobile">
+                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
+                        <span class="sr-only">Toggle search</span>
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="collapse clearfix" id="search">
+
+                <h:form class="navbar-form" role="search" id="searchFormGlobal">
+                    <div class="input-group">
+                        <h:inputText class="form-control" pt:placeholder="Search" id="searchValue" value="#{itemBean.searchString}"/>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-primary" action="items.xhtml"   actionListener="#{itemBean.doSearchGeneric()}">
+                                <i class="fa fa-search"></i>
+                            </h:commandLink>
+                        </span>
+                        <span class="input-group-btn">
+                            <h:commandLink class="btn btn-primary" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="Advanced Search" action="advancedSearch.xhtml?faces-redirect=true"  >
+                                <i class="fa fa-search-plus"></i>
+                            </h:commandLink>
+                        </span>
+
+
+                    </div>
+
+                </h:form>
+
+            </div>
+            <!--/.nav-collapse -->
+
+        </div>
+        <!-- /.container -->
+    </div>
+    <style>
+        .ui-widget-header{
+            border: 1px solid #41b39c !important;
+            background: #4fbfa8 50% 50% repeat-x !important;
+        }
+
+    </style>
+
+
+    <!-- /#navbar -->
+
+    <!-- *** NAVBAR END *** -->
+</ui:composition>

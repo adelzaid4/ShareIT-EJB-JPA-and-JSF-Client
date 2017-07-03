@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/masterTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="title">
+         Profile
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .ui-widget-header{
+                border: 1px solid #41b39c !important;
+                background: #4fbfa8 50% 50% repeat-x !important;
+                color: white;
+            }
+
+        </style>
+
+
+        <h:messages></h:messages>
+        <div id="content">
+            <o:form includeRequestParams="true" id="detailForm">
+                <div class="container">
+
+
+
+                    <div class="col-md-12">
+
+
+
+                        <div class="col-sm-3">
+                            <div id="mainImage"   >
+                                <center>     <o:graphicImage    value="#{userManagedBean.getImage(userManagedBean.image_url)}" dataURI="true" styleClass="img-responsive"  /> </center>
+                            </div>
+                            <div class="box">
+                                <h1 class="text-center">#{userManagedBean.username}</h1>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+
+                            <div >
+                                <div class="box" id="details">
+
+                                    <h3>Profile Details</h3> 
+
+                                    <h4>       Username :        <p>#{userManagedBean.username}</p>
+                                        email :    <p>#{userManagedBean.email}</p>
+                                        gender :    <p>#{userManagedBean.gender}</p>
+                                        Country :   
+                                        <p>#{userManagedBean.address.country.country}</p>
+
+                                        City :    
+                                        <p>#{userManagedBean.address.city.city}</p>
+                                    </h4>
+
+                                    <c:if test="#{userManagedBean.canEdit == true}">
+                                        <h3>Your Current Points</h3>
+                                        <p>#{userManagedBean.points}</p>
+                                        <center>
+                                            <h:commandLink action="Edit_Profile.xhtml?faces-redirect=true" class="btn btn-primary navbar-btn" pt:data-toggle="collapse tooltip" pt:data-placement="bottom" pt:title="notification"><i class="fa fa-pencil-square-o"></i><span class="hidden-sm">Edit Profile</span></h:commandLink>
+                                        </center>
+                                    </c:if>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </o:form>
+
+            <div class="box">
+                <c:if test="#{userManagedBean.items != null}">
+                    <center>    <h3>Published Products</h3> </center>
+                    <div class="row products">
+                        <h:panelGroup styleClass="row products" id="itemsData">
+                            <p:dataGrid var="item" value="#{userManagedBean.items}" columns="3" layout="grid"
+                                        rows="6" paginator="true" id="item"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="3,6,9">
+                                <div class="product">
+                                    <div class="flip-container">
+                                        <div class="flipper">
+                                            <div class="front">
+                                                <o:graphicImage  style="height: 316px;width:100%;" value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                            </div>
+                                            <div class="back">
+                                                <o:graphicImage  style="height: 316px;width:100%;"  value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <o:graphicImage  style="height: 316px;width:100%;" value="#{userManagedBean.getImage(item.imageUrl)}" dataURI="true" /> 
+                                    <div class="text">
+                                        <h3><h:link outcome="#{userManagedBean.goToItem(item.id)}">#{item.name}<br></br>#{item.description}</h:link></h3>
+
+                                        <p class="price">#{item.points}</p>
+                                        <p class="buttons">
+                                            <h:link outcome="#{userManagedBean.goToItem(item.id)}" styleClass="btn btn-primary" style="color: white">View details</h:link><br/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </p:dataGrid>
+                        </h:panelGroup>
+                    </div>
+                </c:if>
+
+            </div>
+
+        </div >
+
+
+    </ui:define>
+</ui:composition>

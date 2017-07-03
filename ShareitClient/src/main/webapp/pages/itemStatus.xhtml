@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:o="http://omnifaces.org/ui">
+    <ui:define name="title">Item Status</ui:define>
+    <ui:define name="content">
+        <style>
+            .ui-widget-header{
+                border: 1px solid #41b39c !important;
+                background: #4fbfa8 50% 50% repeat-x !important;
+                color: white;
+            }
+
+        </style>
+        <h:form id="form">
+            <p:dataTable id="checkboxDT" var="itemStatus" value="#{itemStatusBean.borrowStateDataModel}"  style="margin-bottom:0">
+                <f:facet name="header">
+                    <span style="font-size: large;">
+                        These are the Items that haven't come back yet
+                    </span>
+                </f:facet>
+                <p:column headerText="Id" style="width: 50px;">
+                    <h:outputText value="#{itemStatusBean.borrowStateDataModel.rowIndex+1}" />
+                </p:column>
+                <p:column headerText="Item" style="text-align: center;" > 
+                    <o:graphicImage width="130px" height="100px" value="#{itemStatusBean.getImage(itemStatus.activity.item.imageUrl)}" dataURI="true" /> 
+
+                </p:column>
+                <p:column headerText="From User:">
+                    <h:outputText value="#{itemStatus.activity.toUser.email}" />
+                </p:column>
+                <p:column headerText="Meeting Point:">
+                    <h:outputText value="#{itemStatus.activity.meetingPoint}" />
+                </p:column>
+                <p:column headerText="Due Date:">
+                    <h:outputText value="#{itemStatus.activity.timeTo}" />
+                </p:column>
+
+                <p:column headerText="Is Back">
+
+                    <h:commandLink class="btn btn-primary" value="Mark as back" action="#{itemStatusBean.setIsBack()}" style="width: 100%;">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </h:commandLink>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

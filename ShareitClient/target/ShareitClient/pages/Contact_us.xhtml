@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition 
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    template="../templates/masterTemplate.xhtml">
+
+    <ui:define name="title">Contact us</ui:define>
+
+    <ui:define name="content">
+        <f:view contentType="text/html">
+
+            <h:form prependId="false">
+
+                <div class="box-content" style="padding-left: 100px">
+                    <h:outputText value="For Customer Service please call:" style="font-size: larger;font-weight: bold"/> 
+                    <label style="font-weight: bold" >19999</label><br/>
+                    Daily, 9 AM - 9 PM<br/>
+                    Friday, 1:30 PM - 9 PM<br/>
+
+                </div>
+                <br/><br/>
+                <div class="box-content" style="padding-left: 100px">
+                    <h:outputText value="For Orders please call:" style="font-size: larger;font-weight: bold"/> 
+                    <label style="font-weight: bold" >19666</label><br/>
+                    Daily, 9 AM - 9 PM<br/>
+                    Friday is off<br/>
+                </div>
+                <div class="box-content" style="padding-left: 100px">
+                    <h:outputText value="Our location is:" style="font-size: larger;font-weight: bold"/> 
+                    <label style="font-weight: bold">Smart Village </label><br/>
+                    28 Km by Cairo / Alexandria Desert Road <br/>
+                    6 October, Giza <br/> 
+                    Information Technology Institute <br/>
+                    Building B148 <br/>
+                    <a target="_blank" href="https://www.google.com.eg/maps/place/Information+Technology+Institute/@30.0723479,31.0185809,17z/data=!4m12!1m6!3m5!1s0x14585ba3024b8275:0x9fbd976cf0e573b1!2sSmart+Village!8m2!3d30.073165!4d31.0178835!3m4!1s0x0:0x88f29d027c44f959!8m2!3d30.0711192!4d31.0207517?hl=en">open in Google Maps</a>
+                    <p:gmap center="30.071133, 31.020736" zoom="15" type="HYBRID" style="width:100%;height:400px" />
+
+                </div>
+            </h:form>
+
+        </f:view>
+    </ui:define>
+</ui:composition>

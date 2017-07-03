@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="../templates/masterTemplate.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui">
+      <ui:define name="title">
+         Search
+    </ui:define>
+    <ui:define name="content">
+        <style>
+            .ui-widget-header{
+                border: 1px solid #41b39c !important;
+                background: #4fbfa8 50% 50% repeat-x !important;
+            }
+
+        </style>
+        <div id="content">
+            <div class="container">
+
+                <h:form>
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li><h:commandLink action="items.xhtml">Home</h:commandLink>
+                            </li>
+                            <li>Advanced Search</li>
+                        </ul>
+                    </div>
+                </h:form>
+
+                <div class="col-md-12">
+                    <div class="box">
+                        <h1>Advanced Search</h1>
+                        <h:form>
+                            <p class="lead">look for nearby products
+                                <c:if test="#{user.userDto != null}">
+                                    <h:commandLink class="btn btn-primary" action="#{AdvancedSearch.nearBySearch()}"><i class="fa fa-location-arrow"></i> Search nearby
+                                    </h:commandLink>
+                                </c:if>
+                            </p>
+                            <p>now you can search using places</p>
+                            <p class="text-muted">If you have any questions, please feel free to <h:commandLink action="Contact_us.xhtml">contact us</h:commandLink>, our customer service center is working for you 24/7.</p>
+                        </h:form>
+                        <hr/>
+
+                        <h:form>
+                            <div class="text-center">
+
+                            </div>
+                        </h:form>
+
+                        <h:form id="form">
+                            <div class="form-group">
+                                <label for="Countries" >Country</label>
+                                <h:selectOneMenu id="Countries" value="#{AdvancedSearch.country}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                                    <f:selectItem itemLabel="Select-Country" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.countries}" var="country" itemValue="#{country}" itemLabel="#{country.country}"  /> 
+                                    <f:ajax listener="#{registerBean.onCountryChange(AdvancedSearch.country.id)}" render="States Cities"/>
+                                </h:selectOneMenu>
+                                <h:message for="Countries" style="color:red"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="States">State</label>
+                                <h:selectOneMenu id="States" value="#{AdvancedSearch.state}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                                    <f:selectItem itemLabel="Select-State" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.states}" var="state" itemValue="#{state}" itemLabel="#{state.state}"  />
+                                    <f:ajax listener="#{registerBean.onStateChange(AdvancedSearch.state.id)}" render="Cities"/>
+                                </h:selectOneMenu>
+                                <h:message for="States" style="color:red"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="Cities">City</label>
+                                <h:selectOneMenu id="Cities" value="#{AdvancedSearch.city}" converter="omnifaces.SelectItemsConverter" class="form-control" required="true" requiredMessage="this field is required">
+                                    <f:selectItem itemLabel="Select-City" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems value="#{registerBean.cities}" var="city" itemValue="#{city}" itemLabel="#{city.city}"  />
+                                </h:selectOneMenu>
+                                <h:message for="Cities" style="color:red"/>
+                            </div>
+
+                            <div class="text-center">
+                                <h:commandLink class="btn btn-primary" action="#{AdvancedSearch.advancedSearch()}"><i class="fa fa-search"></i> Search
+
+                                </h:commandLink>
+                            </div>
+                        </h:form>
+
+                        <c:if test="#{AdvancedSearch.items != null}">
+                            <!--<div class="row products">-->
+                            <h:panelGroup styleClass="row products" id="itemsData">
+                                <p:dataGrid var="item" value="#{AdvancedSearch.items}" columns="3" layout="grid"
+                                            rows="6" paginator="true" id="item"
+                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            rowsPerPageTemplate="3,6,9" >
+                                    <div class="product">
+                                        <div class="flip-container">
+                                            <div class="flipper">
+                                                <div class="front">
+                                                    <o:graphicImage  style="height: 316px;width:100%;" value="#{AdvancedSearch.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                </div>
+                                                <div class="back">
+                                                    <o:graphicImage  style="height: 316px;width:100%;"  value="#{AdvancedSearch.getImage(item.imageUrl)}" dataURI="true" /> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <o:graphicImage  style="height: 316px;width:100%;" value="#{AdvancedSearch.getImage(item.imageUrl)}" dataURI="true" /> 
+                                        <div class="text">
+                                            <h3><h:link outcome="#{itemBean.goToItem(item.id)}">#{item.name}<br></br>#{item.description}</h:link></h3>
+
+                                            <p class="price">#{item.points}</p>
+                                            <p class="buttons">
+                                                <h:link outcome="#{AdvancedSearch.goToItem(item.id)}" styleClass="btn btn-primary">View details</h:link><br/>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </p:dataGrid>
+                            </h:panelGroup>
+                        </c:if>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->
+    </ui:define>
+</ui:composition>
